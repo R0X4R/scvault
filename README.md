@@ -22,7 +22,7 @@ $ cd Fuzzy
 $ chmod +x fuzzy && mv /usr/local/bin/
 ```
 
-**Usage**
+**Usage (to view results you need to install jq it will parse the json result)**
 
 Using with while loop:
 ```bash
