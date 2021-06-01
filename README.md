@@ -23,7 +23,7 @@ $ cd Fuzzy
 $ chmod +x fuzzy && mv /usr/local/bin/
 ```
 
-**Usage (to view results you need to install jq it will parse the json result)**
+### Usage
 
 Using with while loop:
 ```bash
@@ -37,18 +37,38 @@ $ subfinder -d target.com -all -silent -threads 200 | httpx -silent -threads 200
 $ cat subdomains.txt | xargs -I host -P 30 bash -c "fuzzy host ~/wordlist.txt"
 ```
 
-Using with [interlace](https://github.com/codingo/Interlace) (for faster results use interlace multi-threading)
+Using with [interlace](https://github.com/codingo/Interlace) (for faster results use interlace multi-threading):
 
 ```bash
 $ subfinder -d target.com -all -silent -threads 200 | httpx -silent -threads 200 | anew -q subdomains.txt
 $ interlace -tL subdomains.txt -threads 20 -c "fuzzy _target_ ~/wordlists.txt" 
 ```
 
-**Tools used**
+To fetch the results (to view results you need to install [jq](https://stedolan.github.io/jq/) it will parse the json result):
+
+```bash
+$ sudo apt install jq
+
+# to filter all the urls with 200 status-code
+$ cd results/
+$ cat www_target_com.json | jq -r '.results[] | {status:.status, url:.url} | select(.status == 200) | .url'
+
+# to filter all the urls with 403 status-code
+$ cd results/
+$ cat www_target_com.json | jq -r '.results[] | {status:.status, url:.url} | select(.status == 403) | .url'
+```
+**Documentation about jq:** [https://stedolan.github.io/jq/tutorial/](https://stedolan.github.io/jq/tutorial/) [https://stedolan.github.io/jq/manual/](https://stedolan.github.io/jq/manual/)
+
+### Donate
+<a href="https://ko-fi.com/i/IE1E74SK2W"><img src="https://ko-fi.com/img/githubbutton_sm.svg"></a>
+
+### Tools used
 <p align="left">
 <a href="https://github.com/codingo/Interlace">Interlace:</a> Easily turn single threaded command line applications into a fast, multi-threaded application with CIDR and glob support.<br>
 
 <a href="https://github.com/ffuf/ffuf">FFUF:</a> Fuzz Faster U Fool is a great tool used for fuzzing. It has become really popular lately with bug bounty hunters. Ffuf is used for fuzzing Get and Post data but can also be used for finding hidden files, directories or subdomains.<br>
+
+<a href="https://stedolan.github.io/jq/">jq:</a> jq is like ``sed`` for **JSON data** - you can use it to slice and filter and map and transform structured data with the same ease that ``sed``, ``awk``, ``grep`` and friends let you play with text. jq is written in ``portable C``, and it has zero runtime dependencies. You can download a single binary, ``scp`` it to a far away machine of the same type, and expect it to work. jq can mangle the data format that you have into the one that you want with very little effort, and the program to do so is often shorter and simpler than you'd expect.
 
 <a href="https://github.com/projectdiscovery/subfinder">Subfinder:</a> Subfinder is a subdomain discovery tool that discovers valid subdomains for websites by using passive online sources. It has a simple modular architecture and is optimized for speed. subfinder is built for doing one thing only - passive subdomain enumeration, and it does that very well.<br>
 
