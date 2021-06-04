@@ -5,4 +5,4 @@ output=$(echo $1 | awk -F// '{print $NF}' | sed -E 's/[\.]+/_/g')
 if [ ! -d "results" ]; then
     mkdir results
 fi
-ffuf -w $wordlist -u $target/FUZZ -e html,json,php,asp,aspx,log,sql,txt,asp,jsp,bak,~,db -H "User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/89.0.4389.86 Safari/537.36" -ac -recursion -recursion-depth 10 -p '0.6-1.2' -t 400 -fc 500,501,502 -o results/$output.json
+ffuf -w $wordlist -u $target/FUZZ -e html,json,php,asp,aspx,log,sql,txt,asp,jsp,bak,~,db -H "User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/89.0.4389.86 Safari/537.36" -ac -recursion -recursion-depth 10 -p '0.6-1.2' -t 400 -fc 500,501,502 -sf -o results/$output.json
