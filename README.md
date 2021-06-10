@@ -20,7 +20,7 @@ Reference: <a href="https://latesthackingnews.com/2019/12/08/ffuf-fuzz-faster-u-
 $ go get -u github.com/ffuf/ffuf
 $ git clone https://github.com/R0X4R/Fuzzy.git
 $ cd Fuzzy
-$ chmod +x fuzzy && mv /usr/local/bin/
+$ chmod +x fuzzy && mv fuzzy /usr/bin/
 ```
 
 ### Usage
