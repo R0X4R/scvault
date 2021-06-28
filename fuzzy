@@ -6,3 +6,10 @@ if [ ! -d "results" ]; then
     mkdir results
 fi
 ffuf -w $wordlist -u $target/FUZZ -e .html,.json,.php,.asp,.aspx,.log,.sql,.txt,.asp,.jsp,.bak,~,.db -H "User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/89.0.4389.86 Safari/537.36" -H "Host: localhost" -ac -recursion -recursion-depth 10 -p '0.6-1.2' -t 400 -fc 500,501,502 -sf -o results/$output.json
+cat results/$output.json | jq -r '.results[] | {status:.status, url:.url} | select(.status == 200) | .url' | while read host; do echo -e "200 - $host";done | anew -q results/$output.txt &> /dev/null
+cat results/$output.json | jq -r '.results[] | {status:.status, url:.url} | select(.status == 301) | .url' | while read host; do echo -e "301 - $host";done | anew -q results/$output.txt &> /dev/null
+cat results/$output.json | jq -r '.results[] | {status:.status, url:.url} | select(.status == 403) | .url' | while read host; do echo -e "403 - $host";done | anew -q results/$output.txt &> /dev/null
+cat results/$output.json | jq -r '.results[] | {status:.status, url:.url} | select(.status == 302) | .url' | while read host; do echo -e "302 - $host";done | anew -q results/$output.txt &> /dev/null
+cat results/$output.json | jq -r '.results[] | {status:.status, url:.url} | select(.status == 400) | .url' | while read host; do echo -e "400 - $host";done | anew -q results/$output.txt &> /dev/null
+cat results/$output.json | jq -r '.results[] | {status:.status, url:.url} | select(.status == 401) | .url' | while read host; do echo -e "401 - $host";done | anew -q results/$output.txt &> /dev/null
+rm -rf results/$output.json
