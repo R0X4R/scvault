@@ -43,8 +43,15 @@ Using with [interlace](https://github.com/codingo/Interlace) (for faster results
 $ subfinder -d target.com -all -silent -threads 200 | httpx -silent -threads 200 | anew -q subdomains.txt
 $ interlace -tL subdomains.txt -threads 20 -c "fuzzy _target_ ~/wordlists.txt" 
 ```
+Added plain-text output:<br/>
+For now only `200, 301, 403, 302, 400, 401` status codes print in output, if you want to add more please raise an issue or create a pull request
 
-To fetch the results (to view results you need to install [jq](https://stedolan.github.io/jq/) it will parse the json result):
+```bash
+$ cd results/
+$ cat www_target_com.txt | grep 200 # [you can grep your custom status code]
+```
+
+~~To fetch the results~~ ~~to view results you need to install~~ [jq](https://stedolan.github.io/jq/) ~~it will parse the json result:~~
 
 ```bash
 $ sudo apt install jq
