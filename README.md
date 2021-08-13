@@ -44,27 +44,12 @@ $ subfinder -d target.com -all -silent -threads 200 | httpx -silent -threads 200
 $ interlace -tL subdomains.txt -threads 20 -c "fuzzy _target_ ~/wordlists.txt" 
 ```
 Added plain-text output:<br/>
-For now only `200, 301, 403, 302, 400, 401` status codes print in output, if you want to add more please raise an issue or create a pull request
 
 ```bash
 $ cd results/
 $ cat www_target_com.txt | grep 200 # [you can grep your custom status code]
 ```
 
-~~To fetch the results~~ ~~to view results you need to install~~ [jq](https://stedolan.github.io/jq/) ~~it will parse the json result:~~
-
-```bash
-$ sudo apt install jq
-
-# to filter all the urls with 200 status-code
-$ cd results/
-$ cat www_target_com.json | jq -r '.results[] | {status:.status, url:.url} | select(.status == 200) | .url'
-
-# to filter all the urls with 403 status-code
-$ cd results/
-$ cat www_target_com.json | jq -r '.results[] | {status:.status, url:.url} | select(.status == 403) | .url'
-```
-**Documentation about jq:** [https://stedolan.github.io/jq/tutorial/](https://stedolan.github.io/jq/tutorial/) [https://stedolan.github.io/jq/manual/](https://stedolan.github.io/jq/manual/)
 
 ### Donate
 <a href="https://ko-fi.com/i/IE1E74SK2W"><img src="https://ko-fi.com/img/githubbutton_sm.svg"></a>
