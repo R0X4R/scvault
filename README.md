@@ -17,6 +17,7 @@ Reference: <a href="https://latesthackingnews.com/2019/12/08/ffuf-fuzz-faster-u-
 
 **Installation** (make sure you have **go** installed)
 ```bash
+$ sudo apt install -y jq
 $ go get -u github.com/ffuf/ffuf
 $ git clone https://github.com/R0X4R/Fuzzy.git
 $ cd Fuzzy
