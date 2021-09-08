@@ -1,4 +1,7 @@
-<center><img src=".github/logo.png" width="50%"></center>
+<h1 align="center">
+  <br/>
+<img src=".github/logo.png" width="50%">
+</h1>
 <h4 align="center">Custom scripts for directory fuzzing, subdomain enumeration and more.</h4>
 <p align="center">
 <a href="https://ko-fi.com/i/IE1E74SK2W"><img src="https://img.shields.io/badge/buy%20me%20a%20ko--fi%20-donate-red"></a>
