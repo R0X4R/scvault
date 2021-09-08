@@ -1,9 +1,0 @@
-#!/bin/bash
-target=$1
-wordlist=$2
-output=$(echo $1 | awk -F// '{print $NF}' | sed -E 's/[\.]+/_/g')
-mkdir -p results
-# initiate ffuf
-ffuf -w $wordlist -u $target/FUZZ -e .html,.json,.php,.asp,.aspx,.log,.sql,.txt,.asp,.jsp,.bak,~,.db -H "User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/89.0.4389.86 Safari/537.36" -ac -recursion -recursion-depth 10 -p '0.6-1.2' -t 400 -fc 500,501,502 -sf -o results/$output.json
-cat results/$output.json | jq -r '.results[] | {length: .length, status: .status, url: .url} | .status, .length, .url' 2> /dev/null | xargs -n3 | anew -q results/$output.txt
-rm -rf results/$output.json

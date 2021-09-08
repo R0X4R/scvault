@@ -1,5 +1,5 @@
-<h1 align="center"> Fuzzy </h1>
-<h4 align="center">Fuzz for sensitive directories without killing the host using <a href="https://github.com/ffuf/ffuf">FFUF</a></h4>
+<center><img src=".github/logo.png" width="50%"></center>
+<h4 align="center">Custom scripts for directory fuzzing, subdomain enumeration and more.</h4>
 <p align="center">
 <a href="https://ko-fi.com/i/IE1E74SK2W"><img src="https://img.shields.io/badge/buy%20me%20a%20ko--fi%20-donate-red"></a>
 <a href="https://github.com/R0X4R/Fuzzy/issues"><img src="https://img.shields.io/badge/contributions-welcome-brightgreen.svg?style=flat"></a>
@@ -9,46 +9,27 @@
 
 ---
 
-I have already posted a <a href="https://twitter.com/R0X4R/status/1396847127934889991">tweet</a> about this. We can use `while loop`, `xargs` or `interlace` to use this tool.<br>
-
-<b>What is FFUF</b><br>
-Fuzz Faster U Fool is a great tool used for fuzzing. It has become really popular lately with bug bounty hunters. Ffuf is used for fuzzing Get and Post data but can also be used for finding hidden files, directories or subdomains.<br>
-Reference: <a href="https://latesthackingnews.com/2019/12/08/ffuf-fuzz-faster-u-fool-an-open-source-fast-web-fuzzing-tool">https://latesthackingnews.com/2019/12/08/ffuf-fuzz-faster-u-fool-an-open-source-fast-web-fuzzing-tool</a>
-
 **Installation** (make sure you have **go** installed)
 ```bash
-$ sudo apt install -y jq
+$ sudo apt install -y jq golang-go
 $ go get -u github.com/ffuf/ffuf
-$ git clone https://github.com/R0X4R/Fuzzy.git
-$ cd Fuzzy
-$ chmod +x fuzzy && mv fuzzy /usr/bin/
+$ go get -u github.com/tomnomnom/anew
+$ go install github.com/OJ/gobuster/v3@latest
+$ wget https://github.com/OWASP/Amass/releases/download/v3.13.4/amass_linux_amd64.zip -O amass.zip && unzip amass.zip && mv amass_linux_amd64/amass /usr/bin/ && rm -rf amass_linux_amd64/
+$ git clone https://github.com/R0X4R/scvault.git && chmod +x scvault/*.sh && mv scvault/*.sh /usr/bin/
 ```
 
 ### Usage
 
-Using with while loop:
+Directory fuzzing:
 ```bash
-$ subfinder -d target.com -all -silent -threads 200 | httpx -silent -threads 200 | anew -q subdomains.txt
-$ cat subdomains.txt | while read -r line; do fuzzy $line ~/wordlist.txt; done
+$ subfinder -d target.tld -all -silent -threads 200 | httpx -silent -threads 200 | anew -q subdomains.txt
+$ interlace -tL subdomains.txt -threads 10 -c "dirfuzz.sh _target_" --silent
 ```
 
-Using with xargs (works more faster):
+Subdomain bruteforce:
 ```bash
-$ subfinder -d target.com -all -silent -threads 200 | httpx -silent -threads 200 | anew -q subdomains.txt
-$ cat subdomains.txt | xargs -I host -P 30 bash -c "fuzzy host ~/wordlist.txt"
-```
-
-Using with [interlace](https://github.com/codingo/Interlace) (for faster results use interlace multi-threading):
-
-```bash
-$ subfinder -d target.com -all -silent -threads 200 | httpx -silent -threads 200 | anew -q subdomains.txt
-$ interlace -tL subdomains.txt -threads 20 -c "fuzzy _target_ ~/wordlists.txt" 
-```
-Added plain-text output:<br/>
-
-```bash
-$ cd results/
-$ cat www_target_com.txt | grep 200 # [you can grep your custom status code]
+$ subenum.sh target.tld
 ```
 
 
@@ -67,4 +48,8 @@ $ cat www_target_com.txt | grep 200 # [you can grep your custom status code]
 
 <a href="https://github.com/projectdiscovery/httpx">httpx:</a> httpx is a fast and multi-purpose HTTP toolkit allow to run multiple probers using retryablehttp library, it is designed to maintain the result reliability with increased threads.
 
-**Thanks to [@ffuf](https://github.com/ffuf/) for making the amzing tool.**
+<a href="https://github.com/OJ/gobuster">GoBuster: </a>Gobuster is a scanner that looks for existing or hidden web objects. It works by launching a dictionary attack against a web server and analyzing the response.
+
+<a href="https://github.com/OWASP/Amass">Amass: </a>The OWASP Amass Project performs network mapping of attack surfaces and external asset discovery using open source information gathering and active reconnaissance techniques.
+
+**Thanks to all the authors of the tools used**
